@@ -20,14 +20,18 @@ db <- dbConnect(MySQL(),
 knitr::opts_chunk$set(connection = db, max.print = 20)
 ```
 
+
 ```{sql}
-SELECT n.name, mi.movie_id, n.gender, ci.role_id, mi.info
+SELECT n.name, mi1.movie_id, n.gender, ci.role_id, mi1.info, mi2.info
 FROM cast_info AS  ci
 INNER JOIN name AS n ON n.id = ci.person_id 
-INNER JOIN movie_info AS mi ON mi.movie_id = ci.movie_id
+INNER JOIN movie_info AS mi1 ON mi1.movie_id = ci.movie_id
+INNER JOIN movie_info AS mi2 ON mi2.movie_id = ci.movie_id
 WHERE ci.role_id = 8
-AND mi.info_type_id = 3
+AND mi1.info_type_id = 3 
+AND mi2.info_type_id = 8 
+AND mi2.info LIKE '%USA%'
 GROUP BY ci.person_id
-LIMIT 20; 
+LIMIT 200;
 ```
 
