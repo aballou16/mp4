@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r, message = FALSE}
 library(tidyverse)
 library(RMySQL)
+library(ggplot2)
 db <- dbConnect(MySQL(), 
                 host = "scidb.smith.edu", 
                 user = "mth292", 
@@ -20,7 +21,16 @@ db <- dbConnect(MySQL(),
 knitr::opts_chunk$set(connection = db, max.print = 400)
 ```
 
-```{sql}
+```{r}
+db <- dbConnect(MySQL(),
+                host = "scidb.smith.edu",
+                user = "mth292",
+                password = "RememberPi",
+                dbname = "imdb")
+```
+                
+```{r}
+sql1 <- "
 SELECT 
 	FLOOR(t.production_year/10) *  10 AS decade,
 	mi.info AS genre, 
@@ -32,6 +42,27 @@ WHERE mi.info_type_id = 3
 AND t.production_year > 1900
 GROUP BY floor(t.production_year/10) *  10, mi.info
 ORDER BY 1,2
+;"
+
+db1 <- db %>%
+  dbGetQuery(sql1)
+
+print(db1)
+```
+
+```{r}
+plot1 <- ggplot(data = db1, aes(x = decade, y = num_times)) +
+  geom_point() +
+  facet_wrap(~genre)
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+print(plot1)
+```
+
+```{r}
+plot2 <- ggplot(data = db1, aes(x = decade, y = num_times, color = genre)) +
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+print(plot2)
 ```
 
 
