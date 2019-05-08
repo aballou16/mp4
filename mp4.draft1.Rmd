@@ -39,7 +39,8 @@ SELECT
 FROM movie_info AS mi
 INNER JOIN title AS t ON t.id = mi.movie_id
 WHERE mi.info_type_id = 3
-AND t.production_year > 1900
+AND t.production_year >= 1920
+AND t.production_year < 2010
 GROUP BY floor(t.production_year/10) *  10, mi.info
 ORDER BY 1,2
 ;"
