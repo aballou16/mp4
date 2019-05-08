@@ -17,21 +17,25 @@ db <- dbConnect(MySQL(),
                 user = "mth292", 
                 password = "RememberPi", 
                 dbname = "imdb")
-knitr::opts_chunk$set(connection = db, max.print = 20)
+knitr::opts_chunk$set(connection = db, max.print = 400)
 ```
-
 
 ```{sql}
-SELECT n.name, mi1.movie_id, n.gender, ci.role_id, mi1.info, mi2.info
-FROM cast_info AS  ci
-INNER JOIN name AS n ON n.id = ci.person_id 
-INNER JOIN movie_info AS mi1 ON mi1.movie_id = ci.movie_id
-INNER JOIN movie_info AS mi2 ON mi2.movie_id = ci.movie_id
-WHERE ci.role_id = 8
-AND mi1.info_type_id = 3 
-AND mi2.info_type_id = 8 
-AND mi2.info LIKE '%USA%'
-GROUP BY ci.person_id
-LIMIT 200;
+SELECT 
+	FLOOR(t.production_year/10) *  10 AS decade,
+	mi.info AS genre, 
+	COUNT(DISTINCT mi.id) AS num_times
+    
+FROM movie_info AS mi
+INNER JOIN title AS t ON t.id = mi.movie_id
+WHERE mi.info_type_id = 3
+AND t.production_year > 1900
+GROUP BY floor(t.production_year/10) *  10, mi.info
+ORDER BY 1,2
 ```
+
+
+
+
+
 
