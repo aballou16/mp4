@@ -53,8 +53,8 @@ print(db1)
 
 ```{r}
 plot1 <- ggplot(data = db1, aes(x = decade, y = num_times)) +
-  geom_point() +
-  facet_wrap(~genre)
+  geom_line() +
+  facet_wrap(~genre) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 print(plot1)
 ```
