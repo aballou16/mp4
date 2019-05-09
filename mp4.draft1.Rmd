@@ -17,6 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 rmarkdown::paged_table
 ```
 
+
 *“I wish there was a way to know you're in the good old days before you've actually left them.” ― Andy Bernard (The Office)*
 
 ```{r, message = FALSE}
@@ -40,7 +41,12 @@ db <- dbConnect(MySQL(),
                 dbname = "imdb")
 ```
 
-Table 1. Number of Films Produced in each Genre for each decade.                 
+**Section 1: Examining America’s Favorite Genres** 
+
+While most Americans claim that their high school days are far behind them, recent movie data (source: IMDb) begs to differ. Beginning around 1990, American preferences for certain movie genres have risen exponentially. Currently, Americans preferences have spiked for Comedies, Dramas and Documentaries. More specifically, in 1920, only 6,281 Dramas, 3,099 Documentaries and 9,301 Crime films were produced. Flash forward to the turn of the of the century and movie screens nationwide featured 72,109 Dramas, 67,263 Documentaries and 53,557 Comedies. These numbers can all be seen in table 1 of this article. 
+
+
+**Table 1. Number of Films Produced in each Genre for each decade.**                 
 ```{r, message = FALSE, warning = FALSE}
 sql1 <- "
 SELECT 
@@ -78,10 +84,23 @@ plot1 <- ggplot(data = db1, aes(x = decade, y = number_of_films)) +
   ggtitle("Film Genre Preferences through the Ages", subtitle = "Source: IMDb")
 print(plot1)
 ```
+
 *This graphic shows the changes in number of films produced for each decade. Each miniature graph within the graphic represents a different genre.*
 
+It is almost interesting to note that the large difference between number of films per decade produced was not linear. We would assume that as film technology increases, the number of films produced would also increase proportionally. The graph below, however, shows that these genres (Dramas, Documentaries and Comedies) saw a large, disproportionate spike beginning in the 1990s. 
+Andy Bernard, a fictional character from the American fan favorite comedy show, The Office, remarks “I wish there was a way to know you’re in the good old days before you’ve actually them them.” [^1]  With the United State’s aging population, this nostalgic sentiment is not unique to Andy. Many Americans now fondly refer to their “glory days” of high school. Interestingly, their movie preferences reflect this wistful remembrance, as Americans have called for more films that play into their “old-school” high school stereotypes. 
 
-Table 2. Gross Income per Each Genre for Each Decade
+
+**Our Cast of Characters:**
+
+*The Nerd*, as played by the Documentary Genre
+
+*The Class Clown*, as played by the Comedy Genre
+
+*The Drama Queen*, as played by the Drama Genre 
+
+
+**Table 2. Gross Income per Each Genre for Each Decade**
 ```{r, message = FALSE, warning = FALSE}
 sql2 <- "
 SELECT 
@@ -128,5 +147,11 @@ plot2 <- ggplot(data = db2, aes(x = decade, y = gross_income)) +
   ggtitle("Gross Spending on Film Genres", subtitle = "Curreny: $, Source: IMDb")
 print(plot2)
 ```
+
 *This graphic shows the total gross income (funds attributed to films) for each decade. The income is in U.S. dollars. Each miniature graph within the graphic represents a different genre.*
 
+**Citations and git Hub Repository**
+
+Github: https://github.com/aballou16/mp4.git
+
+[^1]: https://www.imdb.com/title/tt0386676/
