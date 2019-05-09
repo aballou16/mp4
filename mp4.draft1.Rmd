@@ -5,8 +5,8 @@ date: "59/2019"
 output: 
   html_document:
     theme: journal
-    fig_width: 6
-    fig_height: 4
+    fig_width: 10
+    fig_height: 6
     fig_caption: true
     df_print: paged
     code_folding: hide
