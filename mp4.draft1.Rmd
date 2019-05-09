@@ -17,7 +17,6 @@ knitr::opts_chunk$set(echo = TRUE)
 rmarkdown::paged_table
 ```
 
-
 *“I wish there was a way to know you're in the good old days before you've actually left them.” ― Andy Bernard (The Office)*
 
 ```{r, message = FALSE}
@@ -41,7 +40,6 @@ db <- dbConnect(MySQL(),
                 dbname = "imdb")
 ```
 
-**Section 1: Examining America’s Favorite Genres** 
 
 While most Americans claim that their high school days are far behind them, recent movie data (source: IMDb) begs to differ. Beginning around 1990, American preferences for certain movie genres have risen exponentially. Currently, Americans preferences have spiked for Comedies, Dramas and Documentaries. More specifically, in 1920, only 6,281 Dramas, 3,099 Documentaries and 9,301 Crime films were produced. Flash forward to the turn of the of the century and movie screens nationwide featured 72,109 Dramas, 67,263 Documentaries and 53,557 Comedies. These numbers can all be seen in table 1 of this article. 
 
@@ -87,8 +85,9 @@ print(plot1)
 
 *This graphic shows the changes in number of films produced for each decade. Each miniature graph within the graphic represents a different genre.*
 
-It is almost interesting to note that the large difference between number of films per decade produced was not linear. We would assume that as film technology increases, the number of films produced would also increase proportionally. The graph below, however, shows that these genres (Dramas, Documentaries and Comedies) saw a large, disproportionate spike beginning in the 1990s. 
-Andy Bernard, a fictional character from the American fan favorite comedy show, The Office, remarks “I wish there was a way to know you’re in the good old days before you’ve actually them them.” [^1]  With the United State’s aging population, this nostalgic sentiment is not unique to Andy. Many Americans now fondly refer to their “glory days” of high school. Interestingly, their movie preferences reflect this wistful remembrance, as Americans have called for more films that play into their “old-school” high school stereotypes. 
+It is also interesting to note that the large difference between number of films per decade produced was not linear. We would assume that as film technology increases, the number of films produced would also increase proportionally. The graph below, however, shows that these genres (Dramas, Documentaries and Comedies) saw a large, disproportionate spike beginning in the 1990s. 
+
+Andy Bernard, a fictional character from the American fan favorite comedy show, The Office, remarks “I wish there was a way to know you’re in the good old days before you’ve actually had them them.” [^1]  With the United State’s aging population, this nostalgic sentiment is not unique to Andy. Many Americans now fondly refer to their “glory days” of high school. Interestingly, their movie preferences reflect this wistful remembrance, as Americans have called for more films that play into their “old-school” high school stereotypes. 
 
 
 **Our Cast of Characters:**
@@ -99,56 +98,20 @@ Andy Bernard, a fictional character from the American fan favorite comedy show, 
 
 *The Drama Queen*, as played by the Drama Genre 
 
+While it is entertaining to view America’s movie preferences as a direct result of our nostalgia for “simpler times,” it would be a statistical crime to claim that this is the sole reason for the dramatic increase in affinity towards these genres.  Today’s Americans prefer these genres for a multitude of reasons. 
 
-**Table 2. Gross Income per Each Genre for Each Decade**
-```{r, message = FALSE, warning = FALSE}
-sql2 <- "
-SELECT 
-	FLOOR(t.production_year/10) *  10 AS decade,
-	COALESCE(mi.info,'Other') AS genre, 
-    SUM(CONVERT(
-			TRIM(
-				REPLACE(
-					REPLACE(
-						SUBSTRING_INDEX(mi2.info,'(USA)',1) -- split on 'USA'
-						 ,'$','') -- close replace dollar sign with space
-                           , ',', '') -- close replace comma with space 
-                           ) -- close trim
-                           , signed) -- close convert
-						) AS gross_income -- close sum
-FROM title AS t
-INNER JOIN movie_info AS mi ON t.id = mi.movie_id
-INNER JOIN movie_info AS mi2 ON mi.movie_id = mi2.movie_id
-WHERE mi.info_type_id = 3
-AND mi2.info_type_id = 107
-AND SUBSTRING(mi2.info,1,1) = '$'
-AND mi2.info LIKE '%(USA)%'
-AND t.production_year >= 1920
-AND t.production_year <= 2010
-AND mi.info <> 'Reality-TV'
-AND mi.info <> 'News'
-AND mi.info <> 'Talk-Show'
-GROUP BY FLOOR(t.production_year/10) *  10, mi.info
-ORDER BY 1,2
-;"
+**Comedy:** People turn to comedic movies for more than just a chuckle here and there.  Americans yearn for a break from the worrisome, stressful climate of today’s society. People love comedies because they allow them to laugh and forget about their worries.  The American Psychological Association concurs that stress among Americans is on the rise. According to recent surveys, 44% of Americans report an increased feeling of stress over the past decade and almost one third of children reported feeling a physical symptom of stress at least once a month. [^2] With these high levels of stress plaguing the majority of the nation, Americans need comedic movies to ease their fried nerves. As stated by movie icon Charles Dickens, *“There is nothing in the world so irresistibly contagious as laughter and good humor.”*
 
-db2 <- db %>%
-  dbGetQuery(sql2)
+**Drama:**  According to film blogger LonerWolf, *“People are attracted to what makes their pulses race, and to what they feel makes their lives more three dimensional.”* [^3] It is this assumption that dominates discussion on why Americans today prefer dramas. It can be argued, however, that America’s attraction to drama stems from a largely “boring” society. Today’s society idealizes a perfectly happy, conflict-free nuclear family. Thus, modern Americans build their lives around achieving this picturesque ideal and thus lead fairly conflict free lives.  Dramatic films allow the viewer to picture a lifestyle completely different from their own while also bringing out emotions that are largely absent from their conflict-forbidden lives. 
 
-paged_table(db2)
-```
+**Documentary:**  According to the American Psychological Association, *“Over the past 100 years, Americans' mean IQ has been on a slow but steady climb.”* [^4] It is estimated that, between 1900 and 2012, the mean national IQ rose nearly 30 points. Americans are living in an age where information is right at our fingertips. With “Hey Serie,” Google and more refined search engines, Americans have become accustomed to a wealth of knowledge. This wealth of readily available knowledge is a hallmark of modern American society. While these fast-paced information queries would suggest a downfall of hour-long documentaries, data shows the contrary. As technology has advanced, Americans have almost too much access to information. Documentaries allow the modern knowledge seeker to sit down, relax, and digest content instead of drowning in information overload. 
 
-```{r, message = FALSE, warning = FALSE}
-plot2 <- ggplot(data = db2, aes(x = decade, y = gross_income)) +
-  geom_line() +
-  facet_wrap(~genre) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  scale_y_continuous(labels = c("0", "200 Billion", "400 Billion", "600 Billion")) +
-  ggtitle("Gross Spending on Film Genres", subtitle = "Curreny: $, Source: IMDb")
-print(plot2)
-```
+So, whether it is the **Rise of the Nerds,**  a **Supersize Me** thirst for knowledge, or our passion for the **Good Will Hunting**’s of the world, Americans use their movie choices to ameliorate the problems from within their own lives. Either to ease their stress, bring excitement to their boring lives, or take in knowledge at their own pace, Americans will continue to find joy in cinema. 
 
-*This graphic shows the total gross income (funds attributed to films) for each decade. The income is in U.S. dollars. Each miniature graph within the graphic represents a different genre.*
+*Signed,*
+
+*A Nerd, A Class Clown and a Drama Queen*
+
 
 **Citations and git Hub Repository**
 
@@ -164,3 +127,6 @@ https://www.statista.com/statistics/254115/favorite-movie-genres-in-the-us/
 
 
 [^1]: https://www.imdb.com/title/tt0386676/
+[^2]: https://www.apa.org/monitor/2011/01/stressed-america
+[^3]: https://lonerwolf.com/drama-queen/
+[^4]: https://www.apa.org/monitor/2013/03/smarter
