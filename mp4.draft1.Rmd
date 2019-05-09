@@ -1,7 +1,7 @@
 ---
 title: " The Class Clown, the Drama Queen and the Nerd: How Movie Genres are mirroring our favorite High School Stereotypes "
-author: "Anna Ballou, Nicole Lawler, Jessica Jacinto"
-date: "59/2019"
+authors: "Anna Ballou, Nicole Lawler, Jessica Jacinto"
+date: "5/9/2019"
 output: 
   html_document:
     theme: journal
@@ -39,6 +39,8 @@ db <- dbConnect(MySQL(),
                 password = "RememberPi",
                 dbname = "imdb")
 ```
+
+###Why Do American Film Preferences Seem to Favor old school High School Stereotypes?
 
 
 While most Americans claim that their high school days are far behind them, recent movie data (source: IMDb) begs to differ. Beginning around 1990, American preferences for certain movie genres have risen exponentially. Currently, Americans preferences have spiked for Comedies, Dramas and Documentaries. More specifically, in 1920, only 6,281 Dramas, 3,099 Documentaries and 9,301 Crime films were produced. Flash forward to the turn of the of the century and movie screens nationwide featured 72,109 Dramas, 67,263 Documentaries and 53,557 Comedies. These numbers can all be seen in table 1 of this article. 
