@@ -71,7 +71,8 @@ paged_table(db1)
 plot1 <- ggplot(data = db1, aes(x = decade, y = number_of_films)) +
   geom_line() +
   facet_wrap(~genre) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  ggtitle("Film Genre Preferences through the Ages", subtitle = "Source: IMDb")
 print(plot1)
 ```
 
@@ -118,7 +119,8 @@ plot2 <- ggplot(data = db2, aes(x = decade, y = gross_income)) +
   geom_line() +
   facet_wrap(~genre) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  scale_y_continuous(labels = c("0", "200 Billion", "400 Billion", "600 Billion"))
+  scale_y_continuous(labels = c("0", "200 Billion", "400 Billion", "600 Billion")) +
+  ggtitle("Gross Spending on Film Genres", subtitle = "Curreny: $, Source: IMDb")
 print(plot2)
 ```
 
