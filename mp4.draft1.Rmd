@@ -154,4 +154,13 @@ print(plot2)
 
 Github: https://github.com/aballou16/mp4.git
 
+References:
+
+https://www.mekkographics.com/american-moviegoers-by-age-and-ethnicity/
+
+https://americanfilmmarket.com/relative-popularity-genres-around-world/
+
+https://www.statista.com/statistics/254115/favorite-movie-genres-in-the-us/
+
+
 [^1]: https://www.imdb.com/title/tt0386676/
