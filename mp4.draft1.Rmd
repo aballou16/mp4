@@ -41,6 +41,13 @@ INNER JOIN title AS t ON t.id = mi.movie_id
 WHERE mi.info_type_id = 3
 AND t.production_year >= 1920
 AND t.production_year < 2010
+AND mi.info <> 'Short'
+AND mi.info <> 'Erotica'
+AND mi.info <> 'Experimental'
+AND mi.info <> 'Lifestyle'
+AND mi.info <> 'Sport'
+AND mi.info <> 'Talk-Show'
+AND mi.info <> 'News'
 GROUP BY floor(t.production_year/10) *  10, mi.info
 ORDER BY 1,2
 ;"
@@ -59,6 +66,33 @@ plot1 <- ggplot(data = db1, aes(x = decade, y = num_times)) +
 print(plot1)
 ```
 
+
+```{sql}
+SELECT 
+	FLOOR(t.production_year/10) *  10 AS decade,
+	COALESCE(mi.info,"Other") AS genre, 
+    SUM(CONVERT(
+			TRIM(
+				REPLACE(
+					REPLACE(
+						SUBSTRING_INDEX(mi2.info,"(USA)",1) -- split on "USA"
+						 ,"$","") -- close replace dollar sign with space
+                           , ",", "" ) -- close replace comma with space 
+                           ) -- close trim
+                           , signed) -- close convert
+						) AS Amount -- close sum
+FROM title AS t
+INNER JOIN movie_info AS mi ON t.id = mi.movie_id
+INNER JOIN movie_info AS mi2 ON mi.movie_id = mi2.movie_id
+WHERE mi.info_type_id = 3
+AND mi2.info_type_id = 107
+AND SUBSTRING(mi2.info,1,1) = "$"
+AND mi2.info LIKE "%(USA)%"
+AND t.production_year >= 1920
+AND t.production_year <= 2010
+GROUP BY FLOOR(t.production_year/10) *  10, mi.info
+ORDER BY 1,2
+```
 
 
 
