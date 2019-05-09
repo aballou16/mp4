@@ -37,7 +37,8 @@ db <- dbConnect(MySQL(),
                 password = "RememberPi",
                 dbname = "imdb")
 ```
-                
+
+Table 1. Number of Films Produced in each Genre for each decade.                 
 ```{r, message = FALSE, warning = FALSE}
 sql1 <- "
 SELECT 
@@ -76,7 +77,7 @@ plot1 <- ggplot(data = db1, aes(x = decade, y = number_of_films)) +
 print(plot1)
 ```
 
-
+Table 2. Gross Income per Each Genre for Each Decade
 ```{r, message = FALSE, warning = FALSE}
 sql2 <- "
 SELECT 
