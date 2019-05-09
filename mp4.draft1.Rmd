@@ -1,18 +1,27 @@
 ---
-title: "Mp4.draft1"
+title: " The Class Clown, the Drama Queen and the Nerd: How Movie Genres are mirroring our favorite High School Stereotypes "
 author: "Anna Ballou, Nicole Lawler, Jessica Jacinto"
-date: "4/29/2019"
-output: html_document
+date: "59/2019"
+output: 
+  html_document:
+    theme: journal
+    fig_width: 6
+    fig_height: 4
+    fig_caption: true
+    df_print: paged
+    code_folding: hide
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+rmarkdown::paged_table
 ```
 
 ```{r, message = FALSE}
 library(tidyverse)
 library(RMySQL)
 library(ggplot2)
+library(rmarkdown)
 db <- dbConnect(MySQL(), 
                 host = "scidb.smith.edu", 
                 user = "mth292", 
@@ -21,7 +30,7 @@ db <- dbConnect(MySQL(),
 knitr::opts_chunk$set(connection = db, max.print = 400)
 ```
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 db <- dbConnect(MySQL(),
                 host = "scidb.smith.edu",
                 user = "mth292",
@@ -29,7 +38,7 @@ db <- dbConnect(MySQL(),
                 dbname = "imdb")
 ```
                 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 sql1 <- "
 SELECT 
 	FLOOR(t.production_year/10) *  10 AS decade,
@@ -55,10 +64,10 @@ ORDER BY 1,2
 db1 <- db %>%
   dbGetQuery(sql1)
 
-print(db1)
+paged_table(db1)
 ```
 
-```{r, message = FALSE}
+```{r, message = FALSE, warning = FALSE}
 plot1 <- ggplot(data = db1, aes(x = decade, y = num_times)) +
   geom_line() +
   facet_wrap(~genre) +
@@ -67,7 +76,7 @@ print(plot1)
 ```
 
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 sql2 <- "
 SELECT 
 	FLOOR(t.production_year/10) *  10 AS decade,
@@ -98,10 +107,10 @@ ORDER BY 1,2
 db2 <- db %>%
   dbGetQuery(sql2)
 
-print(db2)
+paged_table(db2)
 ```
 
-```{r, message = FALSE}
+```{r, message = FALSE, warning = FALSE}
 plot2 <- ggplot(data = db2, aes(x = decade, y = Amount)) +
   geom_line() +
   facet_wrap(~genre) +
