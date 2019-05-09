@@ -51,7 +51,7 @@ db1 <- db %>%
 print(db1)
 ```
 
-```{r}
+```{r, message = FALSE}
 plot1 <- ggplot(data = db1, aes(x = decade, y = num_times)) +
   geom_line() +
   facet_wrap(~genre) +
@@ -59,12 +59,6 @@ plot1 <- ggplot(data = db1, aes(x = decade, y = num_times)) +
 print(plot1)
 ```
 
-```{r}
-plot2 <- ggplot(data = db1, aes(x = decade, y = num_times, color = genre)) +
-  geom_point() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
-print(plot2)
-```
 
 
 
