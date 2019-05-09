@@ -43,7 +43,7 @@ sql1 <- "
 SELECT 
 	FLOOR(t.production_year/10) *  10 AS decade,
 	mi.info AS genre, 
-	COUNT(DISTINCT mi.id) AS num_times
+	COUNT(DISTINCT mi.id) AS number_of_films
     
 FROM movie_info AS mi
 INNER JOIN title AS t ON t.id = mi.movie_id
@@ -68,7 +68,7 @@ paged_table(db1)
 ```
 
 ```{r, message = FALSE, warning = FALSE}
-plot1 <- ggplot(data = db1, aes(x = decade, y = num_times)) +
+plot1 <- ggplot(data = db1, aes(x = decade, y = number_of_films)) +
   geom_line() +
   facet_wrap(~genre) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
@@ -90,7 +90,7 @@ SELECT
                            , ',', '') -- close replace comma with space 
                            ) -- close trim
                            , signed) -- close convert
-						) AS Amount -- close sum
+						) AS Funding -- close sum
 FROM title AS t
 INNER JOIN movie_info AS mi ON t.id = mi.movie_id
 INNER JOIN movie_info AS mi2 ON mi.movie_id = mi2.movie_id
@@ -111,7 +111,7 @@ paged_table(db2)
 ```
 
 ```{r, message = FALSE, warning = FALSE}
-plot2 <- ggplot(data = db2, aes(x = decade, y = Amount)) +
+plot2 <- ggplot(data = db2, aes(x = decade, y = Funding)) +
   geom_line() +
   facet_wrap(~genre) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
