@@ -76,6 +76,8 @@ plot1 <- ggplot(data = db1, aes(x = decade, y = number_of_films)) +
   ggtitle("Film Genre Preferences through the Ages", subtitle = "Source: IMDb")
 print(plot1)
 ```
+*This graphic shows the changes in number of films produced for each decade. Each miniature graph within the graphic represents a different genre.*
+
 
 Table 2. Gross Income per Each Genre for Each Decade
 ```{r, message = FALSE, warning = FALSE}
@@ -124,5 +126,5 @@ plot2 <- ggplot(data = db2, aes(x = decade, y = gross_income)) +
   ggtitle("Gross Spending on Film Genres", subtitle = "Curreny: $, Source: IMDb")
 print(plot2)
 ```
-
+*This graphic shows the total gross income (funds attributed to films) for each decade. The income is in U.S. dollars. Each miniature graph within the graphic represents a different genre.*
 
